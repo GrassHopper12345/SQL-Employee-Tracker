@@ -1,11 +1,7 @@
 const inquirer = require('inquirer');
-const dbConnections = require('./db/connections');
+const db = require('./db/connections');
 
-db.connect(err => {
-    if (err) throw error;
-    console.log('Database connected successfully');
-    employeeTracker();
-});
+
 
 var employeeTracker = function () {
     inquirer.prompt([{
@@ -62,3 +58,5 @@ var employeeTracker = function () {
 
     })
 };
+
+employeeTracker();
