@@ -7,12 +7,12 @@ db.connect(err => {
     employeeTracker();
 });
 
-var employeeTracker = function() {
+var employeeTracker = function () {
     inquirer.prompt([{
         type: 'list',
         name: 'prompt',
         message: 'What would you like to do?',
-        Choices: ['View All Departments', 'View All Roles', 'View All Employees', 'Add A Department', 'Add A Role', 'Add An Employee', 'Update An Employee Role', 'Log Out'] 
+        Choices: ['View All Departments', 'View All Roles', 'View All Employees', 'Add A Department', 'Add A Role', 'Add An Employee', 'Update An Employee Role', 'Log Out']
     }]).then((answers) => {
         // View all departments
         if (answers.prompt == 'View All Departments') {
@@ -22,21 +22,21 @@ var employeeTracker = function() {
                 console.table(result);
                 employeeTracker();
             });
-        }else if (answers.prompt == 'View All Roles') {
+        } else if (answers.prompt == 'View All Roles') {
             db.query(`SELECT * FROM role`, (err, result) => {
-                if(err) throw err;
+                if (err) throw err;
                 console.log('Viewing All Roles: ');
                 console.table(result);
                 employeeTracker();
-            });    
-        }else if (answers.prompt == 'View All Employees') {
+            });
+        } else if (answers.prompt == 'View All Employees') {
             db.query(`SELECT * FROM employee`, (err, result) => {
-                if(err) throw err;
+                if (err) throw err;
                 console.log('Viewing All Employees: ');
                 console.table(result);
                 employeeTracker();
             });
-        }else if (answers.prompt == 'Add A Department') {
+        } else if (answers.prompt == 'Add A Department') {
             inquirer.prompt([{
                 //adding department
                 type: 'input',
@@ -45,16 +45,20 @@ var employeeTracker = function() {
                 validate: departmentAdded => {
                     if (departmentAdded) {
                         return true;
-                    }else {
+                    } else {
                         console.log('Please Add A Department');
                         return false;
-                }
+                    }
                 }
             }]).then((answers) => {
-                
-            }
+                db.query('INSERT INTO department (name) VALUES (?)', [answers.department], (err, result) => {
+                    if (err) throw err;
+                    console.log(`Added ${answers.department} to database.`)
+                    employeeTracker();
+                });
+            })
         }    
         
 
-        )
+    })
 };
