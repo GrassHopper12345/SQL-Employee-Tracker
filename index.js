@@ -66,7 +66,7 @@ var employeeTracker = function () {
                         validate: roleAdded => {
                             if (roleAdded) {
                                 return true;
-                            }else {
+                            } else {
                                 console.log('Please enter a role you want to add.');
                                 return false;
                             }
@@ -80,7 +80,7 @@ var employeeTracker = function () {
                         validate: salaryAdded => {
                             if (salaryAdded) {
                                 return true;
-                            }else {
+                            } else {
                                 console.log('Please enter a salary for the role you added.');
                                 return false;
                             }
@@ -99,13 +99,63 @@ var employeeTracker = function () {
                             return array;
                         }
                     }
-                ]).then((answerts) => {
+                ]).then((answers) => {
                     //compare result and store as new variable
-                    for (var)
+                    for (var i = 0; i < result.length; i++) {
+                        if (result[i].name === answers.department) {
+                            var department = result[i];
+                        }
+                    }
+                    db.query(`INSERT INTO role (title, salary, department_id) VALUES (?,?,?)`, [answers.role, answers.salary, answers.department.id], (err, results) => {
+                        if (err) throw err;
+                        console.log(`Added ${answers.role} to the database`);
+                        employeeTracker();
+                    });
                 })
+            });
+        } else if (answers.prompt === 'Add A Employee') {
+            // acquire role and managers from database via a query
+            db.query(`SELECT * FROM employee, role`, (err, result) => {
+                if (err) throw err;
+                inquirer.prompt([
+                    {
+                        //add employee first name
+                        type: 'input',
+                        name: 'firstName',
+                        message: `Please enter the employee's first name.`,
+                        validate: firstNameAdded => {
+                            if (firstNameAdded) {
+                                return true;
+                        }else {
+                            console.log(`Please enter the employee's first name.`);
+                            return false;
+                        }
+                    }
+                },
+                {
+                    //add employee last name
+                    type: 'input',
+                    name: 'lastName',
+                    message: `Please enter the employee's last name.`,
+                    validate: lastNameAdded => {
+                        if (lastNameAdded) {
+                            return true;
+                        }else {
+                            console.log(`Please enter the employee's last name`);
+                            return false;
+                        }
+                    }
+                },
+                {
+                    //add an employees role
+                    type: 'list',
+                    name: 'role',
+                    messsage: `Please choose from the list provided the employee's role.`
+                },
+                ])
             })
-        }
-        
+        } 
+
 
     })
 };
