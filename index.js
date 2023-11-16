@@ -53,7 +53,58 @@ var employeeTracker = function () {
                     employeeTracker();
                 });
             })
-        }    
+        } else if (answers.prompt == 'Add A Role') {
+            //acquire departments for choice from database via query
+            db.query('SELECT * FROM department', (err, result) => {
+                if (err) throw err;
+                inquirer.prompt([
+                    {
+                        //adding role
+                        type: 'input',
+                        name: 'role',
+                        message: 'Please enter the name of the role.',
+                        validate: roleAdded => {
+                            if (roleAdded) {
+                                return true;
+                            }else {
+                                console.log('Please enter a role you want to add.');
+                                return false;
+                            }
+                        }
+                    },
+                    {
+                        //adding salary for role
+                        type: 'input',
+                        name: 'salary',
+                        message: 'Please enter the salary of the role you just added.',
+                        validate: salaryAdded => {
+                            if (salaryAdded) {
+                                return true;
+                            }else {
+                                console.log('Please enter a salary for the role you added.');
+                                return false;
+                            }
+                        }
+                    },
+                    {
+                        //adding department for role added
+                        type: 'list',
+                        name: 'department',
+                        message: 'Please choose from list provided the department for the added role',
+                        choices: () => {
+                            var array = [];
+                            for (var i = 0; i < result.length; i++) {
+                                array.push(result[i].name);
+                            }
+                            return array;
+                        }
+                    }
+                ]).then((answerts) => {
+                    //compare result and store as new variable
+                    for (var)
+                })
+            })
+        }
         
 
     })
