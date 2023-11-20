@@ -38,7 +38,11 @@ A command-line application that gives a user and/or company the ability to manag
 * It's done when a `DELETE` request to `/api/movie/:id` route deletes a route when tested using Insomnia.
 
 ## Usage Instructions
-
+1. Open the cloned repository in VS Code or similar code editor.
+2. Open an inegrated terminal for index.js.
+3. Enter 'node index.js' into the terminal commanl line.
+4. A series of questions will prompt in the terminal for the user. The user shall select and/or enter the required choice and/or input to save a new employee to the database.
+5. Once the prompts are completed by the user, one can request to veiw the new employee or current employee's within the database.
 
 ## Mock Up
 
@@ -46,4 +50,4 @@ A command-line application that gives a user and/or company the ability to manag
 ## [GitHub URL](https://github.com/GrassHopper12345/SQL-Employee-Tracker)
 
 
-## [Walk-Through Video]()
+## [Walk-Through Video](https://drive.google.com/file/d/1EYERd92M--eTAAksdrqBmcI0FaKcBWD8/view)

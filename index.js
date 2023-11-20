@@ -47,7 +47,6 @@ var employeeTracker = function () {
                     }
                 }
             }]).then((answers) => {
-                console.log(answers);
                 db.query('INSERT INTO department (name) VALUES (?)', [answers.department], (err, result) => {
                     if (err) throw err;
                     console.log(`Added ${answers.department} to database.`)
@@ -58,7 +57,6 @@ var employeeTracker = function () {
             //acquire departments for choice from database via query
             db.query('SELECT * FROM department', (err, results) => {
                 if (err) throw err;
-                console.log(results);
                 inquirer.prompt([
                     {
                         //adding role
@@ -89,7 +87,6 @@ var employeeTracker = function () {
                         }
                     },
                     {
-                        //adding department for role added?????????????????????????????????????????????????????????????
                         type: 'list',
                         name: 'department',
                         message: 'Please choose from list provided the department for the added role',
@@ -103,7 +100,6 @@ var employeeTracker = function () {
                     var department = results.find(result => result.name === answers.department);
                     db.query(`INSERT INTO role (title, salary, department_id) VALUES (?,?,?)`, [answers.role, answers.salary, answers.department_id], (err, results) => {
                         if (err) throw err;
-
                         console.log(`Added ${answers.role} to the database`);
                         employeeTracker();
                     });
@@ -113,11 +109,8 @@ var employeeTracker = function () {
             // acquire role and managers from database via a query
             db.query(`SELECT * FROM role`, (err, roles) => {
                 if (err) throw err;
-                console.log(roles);
                 db.query('SELECT * FROM employee', (err, managers) => {
                     if (err) throw err;
-                    console.log(managers);
-
                     inquirer.prompt([
                         {
                             type: 'input',
@@ -165,15 +158,12 @@ var employeeTracker = function () {
                         },
                     ])
                         .then(answers => {
-                            console.log(answers);
                             db.query(
                                 'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)',
                                 [answers.firstName, answers.lastName, answers.role_id, answers.manager_id],
                                 (err, result) => {
                                     if (err) throw err;
-                                    console.log(answers);
                                     console.log(`Added ${answers.firstName} ${answers.lastName} to the database.;`)
-
                                     employeeTracker();
                                 }
                             );
@@ -184,7 +174,6 @@ var employeeTracker = function () {
             // acquire roles and managers from database
             db.query(`SELECT * FROM employee`, (err, result) => {
                 if (err) throw err;
-                console.log(result);
                 db.query(`SELECT * FROM role`, (err2, role) => {
                     if (err2) throw err2;
                     inquirer.prompt([
@@ -197,7 +186,6 @@ var employeeTracker = function () {
                                 name: `${result.first_name} ${result.last_name}`,
                                 value: result.id,
                             })),
-
                         },
                         {
                             //updating the new role in database
@@ -219,12 +207,10 @@ var employeeTracker = function () {
                         for (var i = 0; i < role.length; i++) {
                             if (role[i].id === answers.role) {
                                 var r = role[i].id;
+                            }
                         }
-                        }
-                        console.log(eId, r);
                         db.query(`UPDATE employee SET ? WHERE ?`, [{ role_id: r }, { id: eId }], (err, result) => {
                             if (err) throw err;
-                            console.log(answers);
                             console.log(`Updated ${answers.employee} role to the database.`);
                             employeeTracker();
                         });
